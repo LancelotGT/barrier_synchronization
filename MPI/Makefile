@@ -1,7 +1,8 @@
 OMPFLAGS = -fopenmp
 OMPLIBS = -lgomp
 
-CC = gcc
+# CC = gcc
+CC = mpicc
 CPPFLAGS = -g -Wall
 LDFLAGS = -g -Wall
 LDLIBS = $(OMPLIBS)
@@ -22,7 +23,7 @@ openmp_mpi: openmp_mpi.o
 	$(MPICC) -o $@ $(LDFLAGS) $^ $(LDLIBS) $(OMPLIBS)
 
 openmp_mpi.o: openmp_mpi.c
-	$(CC) -c -o $@ $(CPPFLAGS) $(CFLAGS) $(OMPFLAGS) $^
+	$(MPICC) -c -o $@ $(CPPFLAGS) $(CFLAGS) $(OMPFLAGS) $^
 
 clean:
 	rm -f *.o hello_world communicate_world openmp_mpi
