@@ -1,0 +1,6 @@
+.DS_Store
+*.o
+OpenMP/hello_world
+OpenMP/parallel_for
+OpenMP/priv_vars
+OpenMP/shared_vars
