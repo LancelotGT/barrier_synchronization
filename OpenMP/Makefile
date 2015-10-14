@@ -1,4 +1,4 @@
-OMPFLAGS = -fopenmp
+OMPFLAGS = -fopenmp -DLEVEL1_DCACHE_LINESIZE=`getconf LEVEL1_DCACHE_LINESIZE`
 OMPLIBS = -lgomp
 
 CC = gcc
