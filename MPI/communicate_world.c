@@ -21,12 +21,23 @@ int main(int argc, char **argv)
 
   my_msg[0] = my_id;
   my_msg[1] = num_processes;
+  int my_recv[2];
 
   // Be careful of deadlock when using blocking sends and receives!
   MPI_Send(&my_msg, 2, MPI_INT, my_dst, tag, MPI_COMM_WORLD);
-  MPI_Recv(&my_msg, 2, MPI_INT, my_src, tag, MPI_COMM_WORLD, &mpi_result);
+  MPI_Recv(&my_recv, 2, MPI_INT, my_src, tag, MPI_COMM_WORLD, &mpi_result);
 
-  printf("proc %d: received message from proc %d of %d\n", my_id, my_msg[0], my_msg[1]);
+  printf("Round0: proc %d: received message from proc %d of %d\n", my_id, my_recv[0], my_recv[1]);
+  fflush(stdout);
+  MPI_Barrier(MPI_COMM_WORLD);
+
+  // Be careful of deadlock when using blocking sends and receives!
+  MPI_Send(&my_msg, 2, MPI_INT, my_dst, tag, MPI_COMM_WORLD);
+  MPI_Recv(&my_recv, 2, MPI_INT, my_src, tag, MPI_COMM_WORLD, &mpi_result);
+
+  printf("Round1: proc %d: received message from proc %d of %d\n", my_id, my_recv[0], my_recv[1]);
+  fflush(stdout);
+  MPI_Barrier(MPI_COMM_WORLD); 
 
   MPI_Finalize();
   return 0;

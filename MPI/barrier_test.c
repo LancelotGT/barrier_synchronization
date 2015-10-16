@@ -1,6 +1,7 @@
 #include "mpi.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include "gtmpi.h"
 
 int main(int argc, char **argv) {
     char filename[20];
@@ -10,6 +11,7 @@ int main(int argc, char **argv) {
     MPI_Init(&argc, &argv);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &size);
+    gtmpi_init(size);
 
     if (rank < 2) { /* proc 0 and 1 only */ 
         sprintf(filename, "file_%d.out", rank);
@@ -18,7 +20,8 @@ int main(int argc, char **argv) {
         fclose(fp);
     }
 
-    MPI_Barrier(MPI_COMM_WORLD);
+    //MPI_Barrier(MPI_COMM_WORLD);
+    gtmpi_barrier();
 
     if (rank < 2) { /* proc 0 and 1 only */ 
         sprintf(filename, "file_%d.out", (rank==0)?1:0 );
@@ -27,7 +30,8 @@ int main(int argc, char **argv) {
         fclose(fp);
     }
 
-    MPI_Barrier(MPI_COMM_WORLD); 
+    //MPI_Barrier(MPI_COMM_WORLD); 
+    gtmpi_barrier();
 
     if (rank < 2) { /* proc 0 and 1 only */ 
         sprintf(filename, "file_%d.out", rank);
@@ -36,7 +40,8 @@ int main(int argc, char **argv) {
         fclose(fp);
     }
 
-    MPI_Barrier(MPI_COMM_WORLD);
+    //MPI_Barrier(MPI_COMM_WORLD);
+    gtmpi_barrier();
 
     if (rank < 2) { /* proc 0 and 1 only */ 
         sprintf(filename, "file_%d.out", (rank==0)?1:0 );
@@ -45,7 +50,8 @@ int main(int argc, char **argv) {
         fclose(fp);
     } 
 
-    MPI_Barrier(MPI_COMM_WORLD); 
+    //MPI_Barrier(MPI_COMM_WORLD); 
+    gtmpi_barrier();
 
     if (rank < 2) { /* proc 0 and 1 only */ 
         sprintf(filename, "file_%d.out", rank);
@@ -54,7 +60,8 @@ int main(int argc, char **argv) {
         fclose(fp);
     }
 
-    MPI_Barrier(MPI_COMM_WORLD);
+    //MPI_Barrier(MPI_COMM_WORLD);
+    gtmpi_barrier();
 
     if (rank < 2) { /* proc 0 and 1 only */ 
         sprintf(filename, "file_%d.out", (rank==0)?1:0 );
