@@ -15,7 +15,7 @@ int main(int argc, char **argv)
   MPI_Comm_size(MPI_COMM_WORLD, &num_processes);
   MPI_Comm_rank(MPI_COMM_WORLD, &my_id);
 
-  //gtmpi_init(num_processes);
+  gtmpi_init(num_processes);
 
   my_dst = (my_id + 1) % num_processes;
   my_src = (my_id - 1) % num_processes;
@@ -33,11 +33,11 @@ int main(int argc, char **argv)
 
     printf("%d proc %d: received message from proc %d of %d\n", i, my_id, recv_msg[0], recv_msg[1]);
     fflush(stdout);
-    MPI_Barrier(MPI_COMM_WORLD);
-    //gtmpi_barrier();
+    //MPI_Barrier(MPI_COMM_WORLD);
+    gtmpi_barrier();
   }
 
-  //gtmpi_finalize();
+  gtmpi_finalize();
 
   MPI_Finalize();
 
