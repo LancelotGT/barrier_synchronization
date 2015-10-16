@@ -1,31 +1,30 @@
 OMPFLAGS = -fopenmp
 OMPLIBS = -lgomp
 
-# CC = gcc
 CC = mpicc
 CPPFLAGS = -g -Wall
 LDFLAGS = -g -Wall
 LDLIBS = $(OMPLIBS)
 
 MPICC = mpicc
-MPICH = /usr/lib64/openmpi/1.4-gcc
+MPICH = /usr/lib/openmpi
 CFLAGS = -I$(MPICH)/include
 
-all: hello_world communicate_world openmp_mpi test_barrier
+all: communicate_world_tournament communicate_world_dissemination communicate_world_counter communicate_world_default 
 
-hello_world: hello_world.o
+communicate_world_tournament: communicate_world.o gtmpi_tournament.o
 	$(MPICC) -o $@ $(LDFLAGS) $^ $(LDLIBS)
 
-communicate_world: communicate_world.o
+communicate_world_dissemination: communicate_world.o gtmpi_dissemination.o
 	$(MPICC) -o $@ $(LDFLAGS) $^ $(LDLIBS)
 
-openmp_mpi: openmp_mpi.o
-	$(MPICC) -o $@ $(LDFLAGS) $^ $(LDLIBS) $(OMPLIBS)
+communicate_world_counter: communicate_world.o gtmpi_counter.o
+	$(MPICC) -o $@ $(LDFLAGS) $^ $(LDLIBS)
 
-openmp_mpi.o: openmp_mpi.c
-	$(MPICC) -c -o $@ $(CPPFLAGS) $(CFLAGS) $(OMPFLAGS) $^
+communicate_world_default: communicate_world.o
+	$(MPICC) -o $@ $(LDFLAGS) $^ $(LDLIBS)
 
 test_barrier: test_barrier.o gtmpi_counter.o
 	$(MPICC) -o $@ $(LDFLAGS) $^ $(LDLIBS) 
 clean:
-	rm -f *.o hello_world communicate_world openmp_mpi
+	rm -f *.o 

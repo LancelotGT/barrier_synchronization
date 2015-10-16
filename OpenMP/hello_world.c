@@ -16,7 +16,7 @@ int main(int argc, char **argv)
     int num_threads = omp_get_num_threads();
     int thread_num = omp_get_thread_num();
     printf("Hello World from thread %d of %d.\n", thread_num, num_threads);
-  } // implied barrier
+  } 
 
   // Resume serial code
   printf("Back in the serial section again\n");

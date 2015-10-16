@@ -1,2 +1,1 @@
-#!/bin/bash
-mpirun -np $2 ./$1
+mpirun -np $2 --hostfile localHost.txt $1
