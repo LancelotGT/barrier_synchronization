@@ -24,7 +24,7 @@ communicate_world_counter: communicate_world.o gtmpi_counter.o
 communicate_world_default: communicate_world.o
 	$(MPICC) -o $@ $(LDFLAGS) $^ $(LDLIBS)
 
-barrier_test: barrier_test.o gtmpi_counter.o
+test_barrier: test_barrier.o gtmpi_counter.o
 	$(MPICC) -o $@ $(LDFLAGS) $^ $(LDLIBS) 
 clean:
 	rm -f *.o 
