@@ -10,21 +10,24 @@ MPICC = mpicc
 MPICH = /usr/lib/openmpi
 CFLAGS = -I$(MPICH)/include
 
-all: communicate_world_tournament communicate_world_dissemination communicate_world_counter communicate_world_default 
+ all: test_MPI_tournament test_MPI_dissemination
 
-communicate_world_tournament: communicate_world.o gtmpi_tournament.o
+test_MPI_tournament: MPI_test.o gtmpi_tournament.o
 	$(MPICC) -o $@ $(LDFLAGS) $^ $(LDLIBS)
 
-communicate_world_dissemination: communicate_world.o gtmpi_dissemination.o
+test_MPI_dissemination: MPI_test.o gtmpi_dissemination.o
 	$(MPICC) -o $@ $(LDFLAGS) $^ $(LDLIBS)
 
-communicate_world_counter: communicate_world.o gtmpi_counter.o
-	$(MPICC) -o $@ $(LDFLAGS) $^ $(LDLIBS)
+test_tournament: test_MPI_tournament
+	for n in 2 4 6 8 10 12 ; do \
+		mpirun -np $$n ./test_MPI_tournament >> MPI_tournament_result.txt; \
+	done 
 
-communicate_world_default: communicate_world.o
-	$(MPICC) -o $@ $(LDFLAGS) $^ $(LDLIBS)
+test_dissemination: test_MPI_dissemination
+	for n in 2 4 6 8 10 12 ; do \
+		mpirun -np $$n ./test_MPI_dissemination >> MPI_dissemination_result.txt; \
+	done 
 
-test_barrier: test_barrier.o gtmpi_counter.o
-	$(MPICC) -o $@ $(LDFLAGS) $^ $(LDLIBS) 
+
 clean:
 	rm -f *.o 
