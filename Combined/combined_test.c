@@ -15,12 +15,10 @@ int main(int argc, char **argv) {
     MPI_Comm_size(MPI_COMM_WORLD, &size);
     gtcombined_init(size, 4);
     sprintf(filename, "file.out");
-    //fp = fopen(filename, "a"); 
 
 #pragma omp parallel num_threads(4) firstprivate(thread_num)
     {
         thread_num = omp_get_thread_num();
-        //printf("P%d thread%d\n", rank, thread_num); 
         
 #pragma omp critical
         {
@@ -31,7 +29,6 @@ int main(int argc, char **argv) {
 
         gtcombined_barrier(); 
 
-        //printf("After first barrier P%d thread%d\n", rank, thread_num);  
 #pragma omp critical
         {
             fp = fopen(filename, "a");
@@ -40,7 +37,6 @@ int main(int argc, char **argv) {
         } 
 
         gtcombined_barrier();
-        //printf("After second barrier P%d thread%d\n", rank, thread_num);   
         
 #pragma omp critical
         {
@@ -50,7 +46,6 @@ int main(int argc, char **argv) {
         }        
 
     }
-    //fclose(fp);  
     gtcombined_finalize();  
     return 0;
 }
