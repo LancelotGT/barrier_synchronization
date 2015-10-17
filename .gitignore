@@ -1,5 +1,6 @@
 .DS_Store
 *.o
+*.txt
 OpenMP/hello_world
 OpenMP/parallel_for
 OpenMP/priv_vars

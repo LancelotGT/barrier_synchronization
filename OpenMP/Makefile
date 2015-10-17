@@ -6,25 +6,26 @@ CPPFLAGS = -g -Wall $(OMPFLAGS)
 LDFLAGS = -g -Wall
 LDLIBS = $(OMPLIBS)
 
-all: hello_world priv_vars shared_vars parallel_for shared_vars_gtmp shared_vars_mcs
+all: test_openmp_counter test_openmp_mcs
 
-hello_world: hello_world.o
-	$(CC) $(LDFLAGS) -o $@ $^ $(LDLIBS)
-
-priv_vars: priv_vars.o
-	$(CC) $(LDFLAGS) -o $@ $^ $(LDLIBS)
-
-shared_vars: shared_vars.o
-	$(CC) $(LDFLAGS) -o $@ $^ $(LDLIBS)
-
-shared_vars_gtmp: shared_vars_gtmp.o gtmp_counter.o
+test_openmp_counter: test_openmp.o gtmp_counter.o
 	$(CC) $(LDFLAGS) -o $@ $^ $(LDLIBS) 
 
-shared_vars_mcs: shared_vars_gtmp.o gtmp_mcs.o
+test_openmp_mcs: test_openmp.o gtmp_mcs.o
 	$(CC) $(LDFLAGS) -o $@ $^ $(LDLIBS)  
 
-parallel_for: parallel_for.o
-	$(CC) $(LDFLAGS) -o $@ $^ $(LDLIBS)
-
 clean:
-	rm -f *.o hello_world priv_vars shared_vars parallel_for
+	rm -f *.o  test_openmp_counter test_openmp_mcs
+
+clean_data:
+	rm *.txt
+
+test_counter: test_openmp_counter
+	for n in 1 2 3 4 5 6 7 8 ; do \
+		./test_openmp_counter $$n 100000 >> openmp_counter_result.txt; \
+	done
+
+test_mcs: test_openmp_mcs
+	for n in 1 2 3 4 5 6 7 8 ; do \
+		./test_openmp_mcs $$n 100000 >> openmp_mcs_result.txt; \
+	done 
