@@ -17,9 +17,9 @@ int main(int argc, char **argv)
         printf("usage: ./test_openmp [nthreads] [rounds]\n");
         exit(1);
     }
-    else if (argc == 2)
+    if (argc >= 2)
         num_threads = atoi(argv[1]);
-    else if (argc == 3)
+    if (argc == 3)
         rounds = atoi(argv[2]);
 
     omp_set_num_threads(num_threads);
@@ -53,7 +53,7 @@ int main(int argc, char **argv)
         sum += time_array[i];
 
     /* output result */
-    printf("%d\t%d\t%f\n", num_threads, rounds, sum / num_threads);
+    printf("%d\t%f\n", num_threads, sum / num_threads);
 
     return 0;
 }
